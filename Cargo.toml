@@ -2,7 +2,12 @@
 name = "zero_width"
 version = "0.1.0"
 edition = "2021"
+authors = ["Ouvill <contact@ouvill.net>"]
+license = "MIT/Apache-2.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[lib]
+crate-type = ["cdylib"]
 
 [dependencies]
+wasm-bindgen="0.2"

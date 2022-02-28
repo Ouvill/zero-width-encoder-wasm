@@ -1,8 +1,12 @@
-
+extern crate wasm_bindgen;
+use wasm_bindgen::prelude::*;
 
 const ZERO : char  = '\u{200B}';
 const ONE : char  = '\u{200C}';
 
+/// 入力された文字をゼロ幅文字'u{200B}'と'u{200C}'を用いてバイナリエンコードします。
+/// 'u{200B}'を0、'u{200C}'を1としてエンコードします。
+#[wasm_bindgen]
 pub fn encode(str: &str) -> String {
     let bytes = str.as_bytes();
     bytes.iter().map(|&b| {
@@ -31,7 +35,8 @@ fn convert_to_zero_width(binary: &str) -> String {
     }).collect::<String>()
 }
 
-
+/// ゼロ幅文字('u{200B}','u{200C}')のバイナリエンコードされた文字列をUTF8でデコードします｡
+#[wasm_bindgen]
 pub fn decode(string: &str) -> String {
     let count = string.chars().count();
     let bytes_count = count / 8;
