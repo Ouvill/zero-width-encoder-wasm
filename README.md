@@ -1,4 +1,4 @@
-# zero_width encoder
+# zero_width_encoder
 
 ゼロ幅文字にエンコード、デコードします｡
 
