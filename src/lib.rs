@@ -3,8 +3,8 @@ extern crate wasm_bindgen;
 use regex::Regex;
 use wasm_bindgen::prelude::*;
 
-const ZERO : char  = '\u{200B}';
-const ONE : char  = '\u{200C}';
+const ZERO: char = '\u{200B}';
+const ONE: char = '\u{200C}';
 
 /// 入力された文字をゼロ幅文字'u{200B}'と'u{200C}'を用いてバイナリエンコードします。
 /// 'u{200B}'を0、'u{200C}'を1としてエンコードします。
@@ -17,10 +17,10 @@ pub fn encode(str: &str) -> String {
     }).collect()
 }
 
-fn convert_to_zero_width(byte : u8) -> String {
+fn convert_to_zero_width(byte: u8) -> String {
     let zero_widths: String = (0..8)
         .rev()
-        .map(|i|  ( byte >> i) & 0b00000001 )
+        .map(|i| (byte >> i) & 0b00000001)
         .map(|bit| match bit {
             0 => ZERO,
             1 => ONE,
@@ -40,7 +40,7 @@ fn convert_to_zero_width(byte : u8) -> String {
 ///  let expect = "Hello World!";
 ///  assert_eq!(expect, decode(&input).unwrap());
 /// ```
-#[wasm_bindgen]
+#[wasm_bindgen(catch)]
 pub fn decode(zero_width_code: &str) -> Result<String, String> {
     let re = Regex::new(r"[^\u{200b}\u{200c}]").unwrap();
     if re.is_match(zero_width_code) {
@@ -74,7 +74,6 @@ fn convert_from_zero_width(string: &str) -> u8 {
         }
     }).fold(0, |acc, x| acc << 1 | x)
 }
-
 
 #[cfg(test)]
 mod tests {
@@ -110,8 +109,8 @@ mod tests {
 
     #[test]
     fn test_convert_from_zero_width() {
-        let input: String =  [ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO].iter().collect();
-        let expect:u8 = 0;
+        let input: String = [ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO].iter().collect();
+        let expect: u8 = 0;
         assert_eq!(expect, convert_from_zero_width(&input));
 
         let input: String = [ONE, ZERO, ONE, ZERO, ONE, ZERO, ONE, ZERO].iter().collect();
@@ -120,7 +119,7 @@ mod tests {
 
 
         let input: String = [ONE, ONE, ONE, ONE, ONE, ONE, ONE, ONE].iter().collect();
-        let expect:u8 = 255;
+        let expect: u8 = 255;
         assert_eq!(expect, convert_from_zero_width(&input));
     }
 
@@ -128,7 +127,7 @@ mod tests {
     fn test_convert_to_zero_width() {
         let input: u8 = 0;
         let expect: String = [ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO].iter().collect();
-        assert_eq!(expect , convert_to_zero_width(input));
+        assert_eq!(expect, convert_to_zero_width(input));
 
         let input: u8 = 4;
         let expect: String = [ZERO, ZERO, ZERO, ZERO, ZERO, ONE, ZERO, ZERO].iter().collect();
@@ -136,10 +135,10 @@ mod tests {
 
         let input: u8 = 170;
         let expect: String = [ONE, ZERO, ONE, ZERO, ONE, ZERO, ONE, ZERO].iter().collect();
-        assert_eq!(expect , convert_to_zero_width(input));
+        assert_eq!(expect, convert_to_zero_width(input));
 
         let input: u8 = 255;
         let expect: String = [ONE, ONE, ONE, ONE, ONE, ONE, ONE, ONE].iter().collect();
-        assert_eq!(expect , convert_to_zero_width(input));
+        assert_eq!(expect, convert_to_zero_width(input));
     }
 }
