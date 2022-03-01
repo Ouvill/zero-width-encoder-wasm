@@ -9,30 +9,23 @@ const ONE : char  = '\u{200C}';
 #[wasm_bindgen]
 pub fn encode(str: &str) -> String {
     let bytes = str.as_bytes();
-    bytes.iter().map(|&b| {
-        let binary = bytes_to_binary(b);
-        let encoded = convert_to_zero_width(&binary);
+    bytes.iter().map(|b| {
+        let encoded = convert_to_zero_width(*b);
         encoded
     }).collect()
 }
 
-fn bytes_to_binary (bytes: u8) -> String {
-    let binary = format!("{:b}", bytes);
-    let len = binary.chars().count();
-    // pad with zeros
-    let zeros = (0..(8-len)).map(|_| '0')
-        .collect::<String>();
-    format!("{}{}", zeros, binary)
-}
-
-fn convert_to_zero_width(binary: &str) -> String {
-    binary.chars().map(|c| {
-        match c {
-            '0' => ZERO,
-            '1' => ONE,
-            _ => panic!("Invalid binary digit: {}", c),
-        }
-    }).collect::<String>()
+fn convert_to_zero_width(byte : u8) -> String {
+    let zero_widths: String = (0..8)
+        .map(|i|  ( byte >> i) & 0b00000001 )
+        .map(|bit| match bit {
+            0 => ZERO,
+            1 => ONE,
+            _ => panic!("Invalid binary digit: {}", bit),
+        })
+        .rev()
+        .collect();
+    zero_widths
 }
 
 /// ゼロ幅文字('u{200B}','u{200C}')のバイナリエンコードされた文字列をUTF8でデコードします｡
@@ -96,25 +89,20 @@ mod tests {
 
     #[test]
     fn test_convert_to_zero_width() {
-        let input = "00000000";
+        let input: u8 = 0;
         let expect: String = [ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO, ZERO].iter().collect();
-        assert_eq!(expect , convert_to_zero_width(&input));
+        assert_eq!(expect , convert_to_zero_width(input));
 
-        let input = "11111111";
-        let expect: String = [ONE, ONE, ONE, ONE, ONE, ONE, ONE, ONE].iter().collect();
-        assert_eq!(expect , convert_to_zero_width(&input));
+        let input: u8 = 4;
+        let expect: String = [ZERO, ZERO, ZERO, ZERO, ZERO, ONE, ZERO, ZERO].iter().collect();
+        assert_eq!(expect, convert_to_zero_width(input));
 
-        let input = "10101010";
+        let input: u8 = 170;
         let expect: String = [ONE, ZERO, ONE, ZERO, ONE, ZERO, ONE, ZERO].iter().collect();
-        assert_eq!(expect , convert_to_zero_width(&input));
-    }
+        assert_eq!(expect , convert_to_zero_width(input));
 
-    #[test]
-    fn test_bytes_to_binary() {
-        assert_eq!("00000000",bytes_to_binary(0));
-        assert_eq!("00000001",bytes_to_binary(1));
-        assert_eq!("00000010",bytes_to_binary(2));
-        assert_eq!("00100000",bytes_to_binary(32));
-        assert_eq!("11111111",bytes_to_binary(255));
+        let input: u8 = 255;
+        let expect: String = [ONE, ONE, ONE, ONE, ONE, ONE, ONE, ONE].iter().collect();
+        assert_eq!(expect , convert_to_zero_width(input));
     }
 }
