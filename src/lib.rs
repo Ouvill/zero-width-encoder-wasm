@@ -1,6 +1,5 @@
 extern crate wasm_bindgen;
 
-use regex::Regex;
 use wasm_bindgen::prelude::*;
 
 const ZERO: char = '\u{200B}';
@@ -42,8 +41,7 @@ fn convert_to_zero_width(byte: u8) -> String {
 /// ```
 #[wasm_bindgen(catch)]
 pub fn decode(zero_width_code: &str) -> Result<String, String> {
-    let re = Regex::new(r"[^\u{200b}\u{200c}]").unwrap();
-    if re.is_match(zero_width_code) {
+    if !validate_before_decode(zero_width_code) {
         return Err(format!("Invalid zero-width code: {}", zero_width_code));
     }
 
@@ -63,6 +61,16 @@ pub fn decode(zero_width_code: &str) -> Result<String, String> {
         Ok(decoded) => Ok(decoded),
         Err(e) => Err(format!("Invalid UTF8: {}", e)),
     }
+}
+
+fn validate_before_decode(zero_width_code: &str) -> bool {
+    zero_width_code.chars().all(|c| {
+        match c {
+            ZERO => true,
+            ONE => true,
+            _ => false,
+        }
+    })
 }
 
 fn convert_from_zero_width(string: &str) -> u8 {
@@ -106,6 +114,15 @@ mod tests {
         let expect = "Invalid UTF8: ";
         assert!(decode(invalid_input).unwrap_err().contains(&expect))
     }
+
+    #[test]
+    fn test_validate_before_decode() {
+        let input = "\u{200b}\u{200c}\u{200b}\u{200b}\u{200c}\u{200b}\u{200b}\u{200b}\u{200b}\u{200c}\u{200c}\u{200b}\u{200b}\u{200c}\u{200b}\u{200c}\u{200b}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200b}\u{200b}\u{200b}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200b}\u{200b}\u{200b}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200c}\u{200c}\u{200b}\u{200b}\u{200c}\u{200b}\u{200b}\u{200b}\u{200b}\u{200b}\u{200b}\u{200c}\u{200b}\u{200c}\u{200b}\u{200c}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200c}\u{200b}\u{200b}\u{200c}\u{200b}\u{200b}\u{200c}\u{200c}\u{200b}\u{200c}\u{200c}\u{200b}\u{200b}\u{200b}\u{200c}\u{200c}\u{200b}\u{200b}\u{200c}\u{200b}\u{200b}\u{200b}\u{200b}\u{200c}\u{200b}\u{200b}\u{200b}\u{200b}\u{200c}";
+        assert!(validate_before_decode(input));
+        let invalid_input = "hello world";
+        assert!(!validate_before_decode(invalid_input));
+    }
+
 
     #[test]
     fn test_convert_from_zero_width() {
