@@ -417,8 +417,10 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@ouvill/zero-width-encoder-wasm@file:../pkg":
+"@ouvill/zero-width-encoder-wasm@^0.1.0":
   version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@ouvill/zero-width-encoder-wasm/-/zero-width-encoder-wasm-0.1.0.tgz#796cb8c80cd04239a65b64a18f7fbd3dd4300c0a"
+  integrity sha512-/W6AiIH4acCt6Qiv+2SY7sJuWSqrQxZl+U6s+EEG3ZkvC+Mu5GUzzBBbzzGZP03JOtLyf8YR/yYoXn++oWLeVg==
 
 "@popperjs/core@^2.4.4":
   version "2.11.2"
