@@ -4,7 +4,7 @@ import {
   detectSteganography,
   parse,
   setZeroWidthSteganographyOnCopy,
-  SteganographyData,
+  EmbeddedData,
 } from "../lib/steganography";
 import styles from "../styles/Home.module.css";
 import Merosu from "../components/merosu.md";
@@ -24,7 +24,7 @@ import {
 
 const Detect = () => {
   const [value, setValue] = React.useState("");
-  const [result, setResult] = React.useState<SteganographyData[]>([]);
+  const [result, setResult] = React.useState<EmbeddedData[]>([]);
   const detect = useCallback(() => {
     const detected = detectSteganography(value);
     const parsed = parse(detected);
