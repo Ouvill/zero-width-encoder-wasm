@@ -4,7 +4,11 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
+          <option name="caretOffset" value="6732" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/lib.rs" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="57" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/Cargo.toml" />
         </OpenedFileInfo>
         <OpenedFileInfo>
@@ -15,8 +19,28 @@
           <option name="fileUrl" value="mock:///DiffPreview" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="6570" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/lib.rs" />
+          <option name="caretOffset" value="189" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/README.md" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/package.json" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/.gitignore" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/zero_width_encoder_wasm.d.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/zero_width_encoder_wasm.js" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/zero_width_encoder_wasm_bg.js" />
         </OpenedFileInfo>
       </list>
     </option>
