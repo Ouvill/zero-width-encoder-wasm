@@ -2,9 +2,11 @@ extern crate wasm_bindgen;
 
 mod decoder;
 mod encoder;
+mod steganography;
 
 pub use decoder::decode;
 pub use encoder::encode;
+pub use steganography::detect;
 
 enum ZWC {
     ZeroWidthNonJoiner,
