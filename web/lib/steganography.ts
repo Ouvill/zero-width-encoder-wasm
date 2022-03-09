@@ -4,14 +4,14 @@ import Ajv, { JSONSchemaType } from "ajv";
 
 const ajv = new Ajv();
 
-export type SteganographyData = {
+export type EmbeddedData = {
   original: string;
   href: string;
   date: string;
   version: "1.0.0";
 };
 
-const schema: JSONSchemaType<SteganographyData> = {
+const schema: JSONSchemaType<EmbeddedData> = {
   type: "object",
   properties: {
     original: { type: "string" },
@@ -37,7 +37,7 @@ export const setZeroWidthSteganographyOnCopy: ClipboardEventHandler = (
   if (event.clipboardData && selection && selection.type === "Range") {
     const text = selection.toString();
     if (text) {
-      const data: SteganographyData = {
+      const data: EmbeddedData = {
         original: text,
         href: location.href,
         date: new Date().toISOString(),
@@ -69,11 +69,11 @@ export const detectSteganography = (data: string): string[] => {
   return decrypted;
 };
 
-export const parse = (json: string[]): SteganographyData[] => {
-  let data: SteganographyData[] = [];
+export const parse = (json: string[]): EmbeddedData[] => {
+  let data: EmbeddedData[] = [];
   json.forEach((item) => {
     try {
-      const obj: SteganographyData | unknown = JSON.parse(item);
+      const obj: EmbeddedData | unknown = JSON.parse(item);
       if (validate(obj)) {
         data.push(obj);
       }

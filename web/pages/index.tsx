@@ -1,20 +1,139 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import React, { useMemo } from "react";
 import { embedSteganography, detectSteganography } from "../lib/steganography";
+import {
+  Box,
+  Button,
+  Card,
+  CardContent,
+  Link,
+  TextField,
+  Typography,
+} from "@mui/material";
 
-const Home: NextPage = () => {
-  const [text, setText] = React.useState("");
-  const [hiddenText, setHiddenText] = React.useState("");
-  const [decodeText, setDecodeText] = React.useState("");
+const CreateSteganography = () => {
+  const [text, setText] = React.useState("こんにちは");
+  const [hiddenText, setHiddenText] = React.useState("Hello World!");
   const embedded = useMemo(
     () => embedSteganography(text, hiddenText),
     [text, hiddenText]
   );
-  const detected = useMemo(() => detectSteganography(decodeText), [decodeText]);
+  return (
+    <div>
+      <div>
+        <Typography variant="h6">テキスト</Typography>
+        <TextField
+          multiline={true}
+          rows={6}
+          onChange={(e) => setText(e.target.value)}
+          value={text}
+          fullWidth={true}
+        />
+      </div>
 
+      <div>
+        <Typography variant="h6">秘密のテキスト</Typography>
+        <Typography></Typography>
+        <TextField
+          multiline={true}
+          rows={6}
+          onChange={(e) => setHiddenText(e.target.value)}
+          value={hiddenText}
+          fullWidth={true}
+        />
+      </div>
+
+      <div>
+        <Typography variant="h6">
+          秘密のメッセージが埋め込まれたテキスト
+        </Typography>
+        <Typography variant={"caption"}>
+          コピーして利用してみてください
+        </Typography>
+        <TextField
+          variant={"filled"}
+          value={embedded}
+          rows={6}
+          multiline={true}
+          fullWidth={true}
+        />
+      </div>
+    </div>
+  );
+};
+
+const CreateSteganographyCard = () => {
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant={"h5"}>作成</Typography>
+        <CreateSteganography />
+      </CardContent>
+    </Card>
+  );
+};
+
+export const DetectSteganography = () => {
+  const [decodeText, setDecodeText] = React.useState("");
+  const detected = useMemo(() => detectSteganography(decodeText), [decodeText]);
+  return (
+    <div>
+      <div>
+        <Typography variant={"h6"}>メッセージ</Typography>
+        <TextField
+          value={decodeText}
+          onChange={(e) => {
+            setDecodeText(e.target.value);
+          }}
+          multiline={true}
+          rows={6}
+          fullWidth={true}
+        />
+      </div>
+      <div>
+        <Typography variant={"h6"}>検出結果</Typography>
+        <TextField
+          variant={"filled"}
+          value={detected[0] || ""}
+          multiline={true}
+          rows={6}
+          fullWidth={true}
+        />
+      </div>
+    </div>
+  );
+};
+
+const DetectSteganographyCard = () => {
+  return (
+    <Card>
+      <CardContent>
+        <Typography variant={"h5"}>検出</Typography>
+        <DetectSteganography />
+      </CardContent>
+    </Card>
+  );
+};
+
+const TabPanel = ({
+  children,
+  value,
+  index,
+}: {
+  value: number;
+  index: number;
+  children: React.ReactChild;
+}) => {
+  return (
+    <div role={"tabpanel"} hidden={value !== index}>
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+    </div>
+  );
+};
+
+const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <Head>
@@ -24,67 +143,17 @@ const Home: NextPage = () => {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>秘密のメッセージ</h1>
-
-        <div>
-          <p>作成</p>
-          <div>
-            <p>text</p>
-            <input onChange={(e) => setText(e.target.value)} value={text} />
-          </div>
-
-          <div>
-            <p>secret</p>
-            <input
-              onChange={(e) => setHiddenText(e.target.value)}
-              value={hiddenText}
-            />
-          </div>
-
-          <div>
-            <p>embedded</p>
-            <input value={embedded} readOnly={true} />
-            <p>copy this text area</p>
-          </div>
+        <Typography className={styles.title}>秘密のメッセージ</Typography>
+        <div className={styles.cards}>
+          <CreateSteganographyCard />
+          <DetectSteganographyCard />
         </div>
-
-        <div>
-          <div>
-            <p>検出</p>
-            <div>
-              <p>message</p>
-              <input
-                value={decodeText}
-                onChange={(e) => {
-                  setDecodeText(e.target.value);
-                }}
-              />
-            </div>
-            <div>
-              <p>hidden</p>
-              <input value={detected[0] || ""} readOnly={true} />
-            </div>
-          </div>
-        </div>
-
-        <p className={styles.description}>
-          Get started by editing{" "}
-          <code className={styles.code}>pages/index.tsx</code>
-        </p>
+        <Button component={Link} href={"/novel"} variant={"contained"}>
+          応用
+        </Button>
       </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{" "}
-          <span className={styles.logo}>
-            <Image src="/vercel.svg" alt="Vercel Logo" width={72} height={16} />
-          </span>
-        </a>
-      </footer>
+      <footer className={styles.footer}>created by Ouvill</footer>
     </div>
   );
 };
