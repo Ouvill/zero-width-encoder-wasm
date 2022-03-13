@@ -6,13 +6,25 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
 pub fn embed(text: &str, hidden: &str) -> String {
     let steganography = encode(hidden);
-    let center = text.len() / 2;
-    let embed = format!(
-        "{}{}{}",
-        text[0..center].to_string(),
-        steganography,
-        text[center..].to_string()
-    );
+    let char_count = text.chars().count();
+    let center = char_count / 2;
+
+    let (first, last) = text.split_at(center);
+
+    // match (front, back) {
+    //     (Some(front), Some(back)) => {
+    //         let front = front.to_string();
+    //         let back = back.to_string();
+    //         let text = front + &steganography + &back;
+    //         return text;
+    //     }
+    //     (_, _) => {
+    //         print!("error");
+    //         return text.len().to_string();
+    //     }
+    // }
+
+    let embed = format!("{}{}{}", first, steganography, last);
     embed
 }
 
@@ -63,13 +75,37 @@ mod tests {
     fn test_embed() {
         let input = "foo bar";
         let hidden = "Hello World!";
-        let expected = "foo\u{200d}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{200d}\u{200d}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{2062}\u{200c}\u{2060}\u{200c}\u{200c}\u{200d}\u{200d}\u{200d}\u{2062}\u{200d}\u{2060}\u{2062}\u{2062}\u{200d}\u{2062}\u{200c}\u{2060}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{200d}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d} bar".to_string();
+        let expected = "foo\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c} bar".to_string();
+        assert_eq!(embed(input, hidden), expected)
+    }
+
+    #[test]
+    fn test_embed_non_string() {
+        let input = "";
+        let hidden = "Hello World!";
+        let expected = "\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}".to_string();
+        assert_eq!(embed(input, hidden), expected)
+    }
+
+    #[test]
+    fn test_embed_to_1_char() {
+        let input = "a";
+        let hidden = "Hello World!";
+        let expected = "\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}a".to_string();
+        assert_eq!(embed(input, hidden), expected)
+    }
+
+    #[test]
+    fn test_embed_to_3_char() {
+        let input = "abc";
+        let hidden = "Hello World!";
+        let expected = "a\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}bc".to_string();
         assert_eq!(embed(input, hidden), expected)
     }
 
     #[wasm_bindgen_test]
     fn test_detect() {
-        let input = "hou are\u{200d}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{200d}\u{200d}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{2062}\u{200c}\u{2060}\u{200c}\u{200c}\u{200d}\u{200d}\u{200d}\u{2062}\u{200d}\u{2060}\u{2062}\u{2062}\u{200d}\u{2062}\u{200c}\u{2060}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{200d}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d} you";
+        let input = "hou are\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c} you";
 
         let hello = js_sys::JsString::from("Hello World!");
         let expected = js_sys::Array::new();

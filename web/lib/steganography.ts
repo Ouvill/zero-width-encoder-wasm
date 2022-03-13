@@ -1,6 +1,9 @@
 import { ClipboardEventHandler } from "react";
-import { embed, detect, decode, encode } from "@ouvill/zero-width-encoder-wasm";
 import Ajv, { JSONSchemaType } from "ajv";
+// import { encode, embed, decode, detect } from "@ouvill/zero-width-encoder-wasm";
+const { encode, decode, detect, embed } = await import(
+  "@ouvill/zero-width-encoder-wasm"
+);
 
 const ajv = new Ajv();
 

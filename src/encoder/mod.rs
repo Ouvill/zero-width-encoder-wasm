@@ -1,4 +1,4 @@
-use crate::{encode_table, wasm_bindgen};
+use crate::wasm_bindgen;
 use wasm_bindgen::prelude::*;
 
 /// 入力された文字をゼロ幅文字を用いて2ビットエンコードします。
@@ -30,11 +30,13 @@ fn convert_to_zero_width(byte: u8, encode_table: &[char]) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::encode_table;
 
     #[test]
     fn test_encode() {
         let input = "Hello World!";
-        let expect = "\u{200d}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{200d}\u{200d}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{2062}\u{200c}\u{2060}\u{200c}\u{200c}\u{200d}\u{200d}\u{200d}\u{2062}\u{200d}\u{2060}\u{2062}\u{2062}\u{200d}\u{2062}\u{200c}\u{2060}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{200d}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}";
+        let expect = "\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}"
+        ;
         assert_eq!(expect, encode(&input));
     }
 

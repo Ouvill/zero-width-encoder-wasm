@@ -28,10 +28,6 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/web/pages/index.tsx" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="84" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/lib/steganography.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="299" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/web/src/theme.ts" />
         </OpenedFileInfo>
@@ -52,7 +48,7 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/decoder/mod.rs" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="87" />
+          <option name="caretOffset" value="71" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/encoder/mod.rs" />
         </OpenedFileInfo>
         <OpenedFileInfo>
@@ -61,6 +57,10 @@
         </OpenedFileInfo>
         <OpenedFileInfo>
           <option name="fileUrl" value="mock:///DiffPreview" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="405" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/web/lib/steganography.ts" />
         </OpenedFileInfo>
       </list>
     </option>

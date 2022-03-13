@@ -12,7 +12,7 @@ use wasm_bindgen::prelude::*;
 /// ```
 #[wasm_bindgen(catch)]
 pub fn decode(zero_width_code: &str) -> Result<String, String> {
-    let encode_table = crate::encode_table();
+    let encode_table = encode_table();
     if !validate_before_decode(zero_width_code, &encode_table) {
         return Err(format!("Invalid zero-width code: {}", zero_width_code));
     }
@@ -65,7 +65,7 @@ mod tests {
 
     #[test]
     fn test_decode() {
-        let input = "\u{200d}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{200d}\u{200d}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{2062}\u{200c}\u{2060}\u{200c}\u{200c}\u{200d}\u{200d}\u{200d}\u{2062}\u{200d}\u{2060}\u{2062}\u{2062}\u{200d}\u{2062}\u{200c}\u{2060}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{200d}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}";
+        let input = "\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}";
         let expect = "Hello World!";
         assert_eq!(decode(&input).unwrap(), expect);
     }
@@ -79,7 +79,7 @@ mod tests {
 
     #[test]
     fn test_decode_invalid_input() {
-        let invalid_input = "\u{200d}\u{200c}\u{200c}\u{200d}\u{2060}\u{200d}\u{200d}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{2062}\u{200c}\u{2060}\u{200c}\u{200c}\u{200d}\u{200d}\u{200d}\u{2062}\u{200d}\u{2060}\u{2062}\u{2062}\u{200d}\u{2062}\u{200c}\u{2060}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{200d}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}";
+        let invalid_input = "\u{200c}\u{200b}\u{200d}\u{200b}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}";
         let expect = "Invalid UTF8:";
         assert!(decode(invalid_input).unwrap_err().contains(&expect))
     }

@@ -9,6 +9,7 @@ pub use encoder::encode;
 pub use steganography::detect;
 pub use steganography::embed;
 
+#[allow(dead_code)]
 enum ZWC {
     ZeroWidthSpace,
     ZeroWidthNonJoiner,
@@ -21,7 +22,7 @@ enum ZWC {
     InvisibleSeparator,
 
     // ファイルのエンコーディングを示すBOMとしても利用されているので非推奨
-    ZERO_WIDTH_NON_BREAK,
+    ZeroWidthNonBreak,
     // iOS, IEで表示される
     InvisiblePlus,
 }
@@ -38,7 +39,7 @@ impl ZWC {
             ZWC::InvisibleTimes => '\u{2062}',
             ZWC::InvisibleSeparator => '\u{2063}',
             ZWC::InvisiblePlus => '\u{2064}',
-            ZWC::ZERO_WIDTH_NON_BREAK => '\u{FEFE}',
+            ZWC::ZeroWidthNonBreak => '\u{FEFE}',
         }
     }
 }
@@ -52,7 +53,7 @@ fn encode_table() -> [char; 4] {
         ZWC::WordJoiner.value(),
         // ZWC::InvisibleTimes.value(),
         // ZWC::InvisibleSeparator.value(),
-        // ZWC::ZERO_WIDTH_NON_BREAK.value(),
+        // ZWC::ZeroWidthNonBreak.value(),
     ]
 }
 

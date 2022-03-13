@@ -1,8 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import React, { useCallback, useMemo } from "react";
-import { embedSteganography, detectSteganography } from "../lib/steganography";
+import React, { useCallback, useEffect, useMemo } from "react";
 import {
   Box,
   Button,
@@ -12,14 +11,20 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { detectSteganography, embedSteganography } from "../lib/steganography";
 
 const CreateSteganography = () => {
   const [text, setText] = React.useState("こんにちは");
   const [hiddenText, setHiddenText] = React.useState("Hello World!");
-  const embedded = useMemo(
-    () => embedSteganography(text, hiddenText),
-    [text, hiddenText]
-  );
+  const [embeddedText, setEmbeddedText] = React.useState("");
+  const genEmbeddedText = () => {
+    const output = embedSteganography(text, hiddenText);
+    setEmbeddedText(output);
+  };
+
+  useEffect(() => {
+    console.log(text);
+  }, [text]);
   return (
     <div>
       <div>
@@ -35,7 +40,7 @@ const CreateSteganography = () => {
 
       <div>
         <Typography variant="h6">秘密のテキスト</Typography>
-         <TextField
+        <TextField
           multiline={true}
           rows={6}
           onChange={(e) => setHiddenText(e.target.value)}
@@ -43,6 +48,8 @@ const CreateSteganography = () => {
           fullWidth={true}
         />
       </div>
+
+      <Button onClick={genEmbeddedText}>embed</Button>
 
       <div>
         <Typography variant="h6">
@@ -53,7 +60,7 @@ const CreateSteganography = () => {
         </Typography>
         <TextField
           variant={"filled"}
-          value={embedded}
+          value={embeddedText}
           rows={6}
           multiline={true}
           fullWidth={true}
@@ -75,16 +82,16 @@ const CreateSteganographyCard = () => {
 };
 
 export const DetectSteganography = () => {
-  const [decodeText, setDecodeText] = React.useState("");
-  const detected = useMemo(() => detectSteganography(decodeText), [decodeText]);
+  const [targetText, setTargetText] = React.useState("");
+  const detected = useMemo(() => detectSteganography(targetText), [targetText]);
   return (
     <div>
       <div>
         <Typography variant={"h6"}>メッセージ</Typography>
         <TextField
-          value={decodeText}
+          value={targetText}
           onChange={(e) => {
-            setDecodeText(e.target.value);
+            setTargetText(e.target.value);
           }}
           multiline={true}
           rows={6}
