@@ -16,7 +16,6 @@ enum ZWC {
     InvisibleSeparator,
     // ファイルのエンコーディングを示すBOMとしても利用されているので非推奨
     // ZERO_WIDTH_NON_BREAK,
-
     // iOS, IEで表示される
     // InvisiblePlus
 }
@@ -41,6 +40,7 @@ fn encode_table() -> [char; 4] {
         ZWC::ZeroWidthJoiner.value(),
         ZWC::WordJoiner.value(),
         ZWC::InvisibleTimes.value(),
+        // ZWC::InvisibleSeparator.value(),
     ]
 }
 
