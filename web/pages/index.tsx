@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import styles from "../styles/Home.module.css";
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { embedSteganography, detectSteganography } from "../lib/steganography";
 import {
   Box,
@@ -35,8 +35,7 @@ const CreateSteganography = () => {
 
       <div>
         <Typography variant="h6">秘密のテキスト</Typography>
-        <Typography></Typography>
-        <TextField
+         <TextField
           multiline={true}
           rows={6}
           onChange={(e) => setHiddenText(e.target.value)}

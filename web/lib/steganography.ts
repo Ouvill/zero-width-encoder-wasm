@@ -1,5 +1,5 @@
 import { ClipboardEventHandler } from "react";
-import { decode, encode } from "@ouvill/zero-width-encoder-wasm";
+import { embed, detect, decode, encode } from "@ouvill/zero-width-encoder-wasm";
 import Ajv, { JSONSchemaType } from "ajv";
 
 const ajv = new Ajv();
@@ -53,20 +53,7 @@ export const setZeroWidthSteganographyOnCopy: ClipboardEventHandler = (
 };
 
 export const detectSteganography = (data: string): string[] => {
-  const regex = /[\u200B\u200C]+/g;
-  const steganographyData = regex.exec(data);
-  let decrypted: string[] = [];
-  if (steganographyData) {
-    for (let item of steganographyData) {
-      try {
-        const decoded = decode(item);
-        decrypted.push(decoded);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-  }
-  return decrypted;
+  return detect(data);
 };
 
 export const parse = (json: string[]): EmbeddedData[] => {
