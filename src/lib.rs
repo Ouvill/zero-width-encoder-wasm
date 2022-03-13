@@ -7,6 +7,7 @@ mod steganography;
 pub use decoder::decode;
 pub use encoder::encode;
 pub use steganography::detect;
+pub use steganography::embed;
 
 enum ZWC {
     ZeroWidthNonJoiner,

@@ -1,12 +1,19 @@
-use crate::{decode, encode_table};
+use crate::{decode, encode, encode_table};
 use js_sys;
 use wasm_bindgen::prelude::*;
-use wasm_bindgen::JsCast;
 
+/// ゼロ幅文字を入力されたテキストに埋め込みます｡
 #[wasm_bindgen]
-pub fn embed() -> String {
-    // TODO
-    String::from("")
+pub fn embed(text: &str, hidden: &str) -> String {
+    let steganography = encode(hidden);
+    let center = text.len() / 2;
+    let embed = format!(
+        "{}{}{}",
+        text[0..center].to_string(),
+        steganography,
+        text[center..].to_string()
+    );
+    embed
 }
 
 fn regex(input: &str, char_list: &[char]) -> Option<js_sys::Array> {
@@ -16,6 +23,7 @@ fn regex(input: &str, char_list: &[char]) -> Option<js_sys::Array> {
     result
 }
 
+/// ゼロ幅文字が埋め込まれたテキストからデータを検出します。
 #[wasm_bindgen]
 pub fn detect(input: &str) -> js_sys::Array {
     let encode_table = encode_table();
@@ -50,6 +58,14 @@ pub fn convert_to_js_array(input: &Vec<String>) -> js_sys::Array {
 mod tests {
     use super::*;
     use wasm_bindgen_test::*;
+
+    #[test]
+    fn test_embed() {
+        let input = "foo bar";
+        let hidden = "Hello World!";
+        let expected = "foo\u{200d}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{200d}\u{200d}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{2062}\u{2062}\u{200c}\u{2060}\u{200c}\u{200c}\u{200d}\u{200d}\u{200d}\u{2062}\u{200d}\u{2060}\u{2062}\u{2062}\u{200d}\u{2062}\u{200c}\u{2060}\u{200d}\u{2060}\u{2062}\u{200c}\u{200d}\u{2060}\u{200d}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d} bar".to_string();
+        assert_eq!(embed(input, hidden), expected)
+    }
 
     #[wasm_bindgen_test]
     fn test_detect() {
