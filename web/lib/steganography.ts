@@ -1,6 +1,5 @@
 import { ClipboardEventHandler } from "react";
 import Ajv, { JSONSchemaType } from "ajv";
-// import { encode, embed, decode, detect } from "@ouvill/zero-width-encoder-wasm";
 const { encode, decode, detect, embed } = await import(
   "@ouvill/zero-width-encoder-wasm"
 );
@@ -28,9 +27,7 @@ const schema: JSONSchemaType<EmbeddedData> = {
 const validate = ajv.compile(schema);
 
 export const embedSteganography = (text: string, hidden: string) => {
-  const steganography = encode(hidden);
-  const center = text.length / 2;
-  return text.slice(0, center) + steganography + text.slice(center);
+  return embed(text, hidden);
 };
 
 export const setZeroWidthSteganographyOnCopy: ClipboardEventHandler = (
