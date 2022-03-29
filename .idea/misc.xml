@@ -3,46 +3,6 @@
   <component name="UnattendedHostPersistenceState">
     <option name="openedFilesInfos">
       <list>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="297" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/pages/index.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="299" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/src/theme.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="35" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/index.js" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="270" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/index_bg.js" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="55" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/steganography/mod.rs" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="685" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/decoder/mod.rs" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="71" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/encoder/mod.rs" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="1499" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/lib.rs" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/src/createEmotionCache.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="543" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/lib/steganography.ts" />
-        </OpenedFileInfo>
       </list>
     </option>
   </component>
