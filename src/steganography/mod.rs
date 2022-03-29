@@ -6,23 +6,20 @@ use wasm_bindgen::prelude::*;
 #[wasm_bindgen]
 pub fn embed(text: &str, hidden: &str) -> String {
     let steganography = encode(hidden);
+
     let char_count = text.chars().count();
     let center = char_count / 2;
 
-    let (first, last) = text.split_at(center);
+    let mut first = String::new();
+    let mut last = String::new();
 
-    // match (front, back) {
-    //     (Some(front), Some(back)) => {
-    //         let front = front.to_string();
-    //         let back = back.to_string();
-    //         let text = front + &steganography + &back;
-    //         return text;
-    //     }
-    //     (_, _) => {
-    //         print!("error");
-    //         return text.len().to_string();
-    //     }
-    // }
+    text.chars().enumerate().for_each(|(i, c)| {
+        if i < center {
+            first.push(c)
+        } else {
+            last.push(c)
+        }
+    });
 
     let embed = format!("{}{}{}", first, steganography, last);
     embed
@@ -97,9 +94,9 @@ mod tests {
 
     #[test]
     fn test_embed_to_3_char() {
-        let input = "abc";
+        let input = "こんにちは";
         let hidden = "Hello World!";
-        let expected = "a\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}bc".to_string();
+        let expected = "こん\u{200c}\u{200b}\u{200d}\u{200b}\u{200c}\u{200d}\u{200c}\u{200c}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{2060}\u{2060}\u{200b}\u{200d}\u{200b}\u{200b}\u{200c}\u{200c}\u{200c}\u{2060}\u{200c}\u{200d}\u{2060}\u{2060}\u{200c}\u{2060}\u{200b}\u{200d}\u{200c}\u{200d}\u{2060}\u{200b}\u{200c}\u{200d}\u{200c}\u{200b}\u{200b}\u{200d}\u{200b}\u{200c}にちは".to_string();
         assert_eq!(embed(input, hidden), expected)
     }
 

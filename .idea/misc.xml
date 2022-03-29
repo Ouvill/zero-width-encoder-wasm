@@ -4,26 +4,6 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="767" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/pages/novel.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="581" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/package.json" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/next-env.d.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/pages/_app.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/web/pages/_documents.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="297" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/web/pages/index.tsx" />
         </OpenedFileInfo>
@@ -40,7 +20,7 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/pkg/index_bg.js" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="2755" />
+          <option name="caretOffset" value="55" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/steganography/mod.rs" />
         </OpenedFileInfo>
         <OpenedFileInfo>
@@ -52,14 +32,15 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/encoder/mod.rs" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="1488" />
+          <option name="caretOffset" value="1499" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/lib.rs" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="fileUrl" value="mock:///DiffPreview" />
+          <option name="caretOffset" value="0" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/web/src/createEmotionCache.ts" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="405" />
+          <option name="caretOffset" value="543" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/web/lib/steganography.ts" />
         </OpenedFileInfo>
       </list>
