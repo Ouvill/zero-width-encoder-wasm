@@ -10,16 +10,8 @@ pub fn embed(text: &str, hidden: &str) -> String {
     let char_count = text.chars().count();
     let center = char_count / 2;
 
-    let mut first = String::new();
-    let mut last = String::new();
-
-    text.chars().enumerate().for_each(|(i, c)| {
-        if i < center {
-            first.push(c)
-        } else {
-            last.push(c)
-        }
-    });
+    let first = text.chars().take(center).collect::<String>();
+    let last = text.chars().skip(center).collect::<String>();
 
     let embed = format!("{}{}{}", first, steganography, last);
     embed
